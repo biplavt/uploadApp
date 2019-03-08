@@ -1,4 +1,10 @@
 import { Component } from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
+
+class ImageSnippet {
+  constructor(public src: string, public file: File) {}
+}
 
 @Component({
   selector: 'app-root',
@@ -7,4 +13,47 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'uploadApp';
+
+  selectedFile: File;
+  base64textString;
+
+  constructor(private http: HttpClient){}
+
+
+  getBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
+  } 
+
+  onFileChanged(event) {
+    let dataImage:string;
+    this.selectedFile = event.target.files[0];
+    console.log("selected file:",this.selectedFile);
+    this.getBase64(this.selectedFile).then(data =>this.base64textString=data)
+        // return data;
+        // console.log('dataImage:',dataImage);
+
+  }
+
+
+  onUpload(data) {
+    // upload code goes here    this.selectedFile
+    // console.log('upload done');
+    
+    this.http.post('http://localhost:3000/v1/Cloudinary/image', {picBase64:this.base64textString})
+    .subscribe(result=>{
+      console.log(result)
+      console.log('Request served');
+    });
+    
+
+    // this.http.get('http://localhost:3000/v1/Cloudinary/17022').subscribe(result=>{
+    //   console.log(result);
+    // })
+    
+  }
 }
