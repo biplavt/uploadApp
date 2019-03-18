@@ -49,11 +49,16 @@ export class AppComponent {
       console.log(result)
       console.log('Request served');
     });
-    
-
-    // this.http.get('http://localhost:3000/v1/Cloudinary/17022').subscribe(result=>{
+     // this.http.get('http://localhost:3000/v1/Cloudinary/17022').subscribe(result=>{
     //   console.log(result);
     // })
-    
+
   }
+  
+  smartSheetConnect(event){
+    this.http.get('http://localhost:3000/auth').subscribe(result=>{
+      console.log(result);
+    })
+  } 
+  
 }
