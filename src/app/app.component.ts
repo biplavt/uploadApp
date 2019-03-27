@@ -43,8 +43,10 @@ export class AppComponent {
   onUpload(data) {
     // upload code goes here    this.selectedFile
     // console.log('upload done');
-    
-    this.http.post('http://localhost:3000/v1/Cloudinary/image', {picBase64:this.base64textString})
+    const myheader=new HttpHeaders().set('x-auth', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiQW5ndWxhckJyYWhtYSIsImFjY2VzcyI6ImF1dGgiLCJpYXQiOjE1NDk0MDY3MzF9.WtnYDIE-0Kwtl9v4GGUKrVGZZXOV8m1asLrC6gk0ThU');
+
+
+    this.http.post('http://localhost:3000/v1/Cloudinary/image', {picBase64:this.base64textString},{headers:myheader})
     .subscribe(result=>{
       console.log(result)
       console.log('Request served');
